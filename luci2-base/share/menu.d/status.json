@@ -9,12 +9,6 @@
         "view": "status/overview",
         "index": 10
     },
-    "status/routes": {
-        "title": "Routes",
-        "acls": [ "status" ],
-        "view": "status/routes",
-        "index": 20
-    },
     "status/syslog": {
         "title": "System Log",
         "acls": [ "status" ],
@@ -26,11 +20,5 @@
         "acls": [ "status" ],
         "view": "status/dmesg",
         "index": 40
-    },
-    "status/processes": {
-        "title": "Processes",
-        "acls": [ "status" ],
-        "view": "status/processes",
-        "index": 50
     }
 }

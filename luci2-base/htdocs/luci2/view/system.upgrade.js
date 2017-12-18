@@ -239,41 +239,6 @@ L.ui.view.extend({
 			}
 
 			return self.getBackupConfig();
-		}).then(function(config) {
-			$('textarea')
-				.attr('rows', (config.match(/\n/g) || [ ]).length + 1)
-				.val(config);
-
-			$('#btn_save')
-				.click(function() {
-					var data = ($('textarea').val() || '').replace(/\r/g, '').replace(/\n?$/, '\n');
-					L.ui.loading(true);
-					self.setBackupConfig(data).then(function() {
-						$('textarea')
-							.attr('rows', (data.match(/\n/g) || [ ]).length + 1)
-							.val(data);
-
-						L.ui.loading(false);
-					});
-				});
-
-			$('#btn_list')
-				.click(function() {
-					L.ui.loading(true);
-					self.listBackup().then(function(list) {
-						L.ui.loading(false);
-						L.ui.dialog(
-							L.tr('Backup file list'),
-							$('<textarea />')
-								.css('width', '100%')
-								.attr('rows', list.length)
-								.prop('readonly', true)
-								.addClass('form-control')
-								.val(list.join('\n')),
-							{ style: 'close' }
-						);
-					});
-				});
 		});
 	}
 });

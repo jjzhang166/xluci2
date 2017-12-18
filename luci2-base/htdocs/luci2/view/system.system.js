@@ -108,53 +108,6 @@ L.ui.view.extend({
 			return true;
 		};
 
-
-		s.tab({
-			id:          'logging',
-			caption:     L.tr('Logging')
-		});
-
-		s.taboption('logging', L.cbi.InputValue, 'log_size', {
-			caption:     L.tr('System log buffer size'),
-			description: L.tr('kiB'),
-			placeholder: 16,
-			optional:    true,
-			datatype:    'range(0, 128)'
-		});
-
-		s.taboption('logging', L.cbi.InputValue, 'log_ip', {
-			caption:     L.tr('External system log server'),
-			placeholder: '0.0.0.0',
-			optional:    true,
-			datatype:    'ip4addr'
-		});
-
-		s.taboption('logging', L.cbi.InputValue, 'log_port', {
-			caption:     L.tr('External system log server port'),
-			placeholder: 514,
-			optional:    true,
-			datatype:    'port'
-		});
-
-		s.taboption('logging', L.cbi.ListValue, 'conloglevel', {
-			caption:	L.tr('Log output level'),
-			initial:	7
-		}).value(8, L.tr('Debug'))
-		  .value(7, L.tr('Info'))
-		  .value(6, L.tr('Notice'))
-		  .value(5, L.tr('Warning'))
-		  .value(4, L.tr('Error'))
-		  .value(3, L.tr('Critical'))
-		  .value(2, L.tr('Alert'))
-		  .value(1, L.tr('Emergency'));
-
-		s.taboption('logging', L.cbi.ListValue, 'cronloglevel', {
-			caption:	L.tr('Cron Log level'),
-			initial:	5
-		}).value(5, L.tr('Debug'))
-		  .value(8, L.tr('Normal'))
-		  .value(9, L.tr('Warning'));
-
 		s.tab({
 			id:          'language',
 			caption:     L.tr('Language and Style')
@@ -198,38 +151,16 @@ L.ui.view.extend({
 					t.value(key, L.tr(themes[key]));
 		};
 
-
 		var s2 = m.section(L.cbi.NamedSection, 'ntp', {
 			caption:      L.tr('Time Synchronization'),
 			readonly:    !this.options.acls.system
 		});
 
-		var e = s2.option(L.cbi.CheckboxValue, '.enable', {
-			caption:      L.tr('Enable NTP client'),
-			optional:     true
-		});
-
-		e.load = function(sid) {
-			return L.system.initEnabled('sysntpd').then(function(enabled) {
-				e.options.initial = enabled;
-			});
-		};
-
-		e.save = function(sid) {
-			if (this.formvalue(sid))
-				return L.system.initStart('sysntpd') && L.system.initEnable('sysntpd');
-			else
-				return L.system.initStop('sysntpd') && L.system.initDisable('sysntpd');
-		};
-
-		s2.option(L.cbi.CheckboxValue, 'enable_server', {
-			caption:      L.tr('Enable NTP server')
-		}).depends('.enable');
-
+		
 		s2.option(L.cbi.DynamicList, 'server', {
 			caption:      L.tr('NTP server candidates'),
 			datatype:     'host'
-		}).depends('.enable');
+		});
 
 		m.on('save', function() {
 			L.uci.changes().then(function(changes) {

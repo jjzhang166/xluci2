@@ -16,33 +16,6 @@
         "view": "network/wireless",
         "index": 20
     },
-    "network/switch": {
-        "title": "Switch",
-        "acls": [ "network" ],
-        "files": [ "/sbin/swconfig" ],
-        "view": "network/switch",
-        "index": 30
-    },
-	"network/dhcp": {
-        "title": "DHCP/DNS",
-        "acls": [ "network" ],
-        "files": [ "/etc/config/dhcp" ],
-        "view": "network/dhcp",
-        "index": 40
-    },
-    "network/hosts": {
-        "title": "Hostnames",
-        "acls": [ "hostnames" ],
-        "files": [ "/etc/config/dhcp" ],
-        "view": "network/hosts",
-        "index": 50
-    },
-    "network/routes": {
-        "title": "Routes",
-        "acls": [ "network" ],
-        "view": "network/routes",
-        "index": 70
-    },
     "network/diagnostics": {
         "title": "Diagnostics",
         "acls": [ "diagnostics" ],

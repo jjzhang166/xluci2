@@ -24,65 +24,8 @@ L.ui.view.extend({
 				return sid;
 			};
 
-			s.taboption('general', L.cbi.CheckboxValue, 'disabled', {
-				caption:	L.tr('Disabled')
-			});
-
-			s.taboption('general', L.cbi.WlanFreqValue, '_mode_freq', {
-				caption:	L.tr('Operating frequency')
-			});
-
-			var tp = s.taboption('general', L.cbi.ListValue, 'txpower', {
-				caption:	L.tr('Transmit Power')
-			});
-
-			tp.load = function(sid) {
-				this.choices = [ ];
-				var txpwrlist = L.wireless.txpwrlist[sid];
-				for (var i = 0; i < txpwrlist.length; i++)
-					this.value('' + txpwrlist[i].dbm, txpwrlist[i].dbm + ' dBm (' + txpwrlist[i].mw + ' mW)');
-			};
-
-			tp.ucivalue = function(sid) {
-				return this.callSuper('ucivalue', sid) || this.choices[this.choices.length - 1][0];
-			};
-
-			s.tab({                                             
-				id:			'advanced',                    
-				caption:	L.tr('Advanced Settings')      
-			});
-
-			var country = s.taboption("advanced", L.cbi.ListValue, "country", {
-				caption: L.tr("Country Code"),
-				description: L.tr("Use ISO/IEC 3166 alpha2 country codes.")
-			});
-
-			country.load = function(sid) {
-				this.choices = [ ];
-				var countrylist = L.wireless.countrylist[sid];
-				for (var i = 0; i < countrylist.length; i++)
-					this.value(countrylist[i].code, countrylist[i].code + ' - ' + countrylist[i].country);
-			};
-
-			country.ucivalue = function(sid) {
-				var v = this.callSuper('ucivalue', sid);
-				if (!v) {
-					var info = L.wireless.info[sid];
-					return info.country || '00';
-				}
-
-				return v;
-			};
-
-			s.taboption("advanced", L.cbi.InputValue, "distance", {
-				caption:	L.tr('Distance Optimization'),
-				description: L.tr('Distance to farthest network member in meters.'),
-				optional:	true
-			});
-			
 			var s_1 = s.subsection(L.cbi.TypedSection, 'wifi-iface', {
 				caption:        L.tr('Device interfaces'),
-				addremove:	true,
 				add_caption:	L.tr('Add interface …')
 			});
 			
@@ -90,12 +33,6 @@ L.ui.view.extend({
 				return section.device == parent_sid;
 			};
 			
-			s_1.add = function(name, sid) {
-				var iface = this.ownerMap.add('wireless', 'wifi-iface');
-				this.ownerMap.set('wireless', iface, 'device', sid);
-				this.ownerMap.set('wireless', iface, 'mode', 'ap');
-			};
-
 			s_1.tab({                                             
 				id:			'general',                    
 				caption:	L.tr('General Settings')      

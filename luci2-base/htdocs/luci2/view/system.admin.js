@@ -274,7 +274,6 @@ L.ui.view.extend({
 		return self.getSSHKeys().then(function(keys) {
 			var m = new L.cbi.Map('dropbear', {
 				caption:     L.tr('SSH Access'),
-				description: L.tr('Dropbear offers SSH network shell access and an integrated SCP server'),
 				tabbed:      true
 			});
 
@@ -307,66 +306,7 @@ L.ui.view.extend({
 				if (v2 && v2.length > 0 && v1 == v2)
 					return L.system.setPassword('root', v2);
 			};
-
-
-			var s2 = m.section(L.cbi.DummySection, '__pubkeys', {
-				caption:     L.tr('SSH-Keys'),
-				description: L.tr('Specifies public keys for passwordless SSH authentication'),
-				readonly:    !self.options.acls.admin
-			});
-
-			var k = s2.option(self.PubkeyListValue, 'keys', {
-				caption:     L.tr('Saved keys'),
-				keys:        keys
-			});
-
-
-			var s3 = m.section(L.cbi.TypedSection, 'dropbear', {
-				caption:     L.tr('SSH Server'),
-				description: L.tr('This sections define listening instances of the builtin Dropbear SSH server'),
-				addremove:   true,
-				add_caption: L.tr('Add instance ...'),
-				readonly:    !self.options.acls.admin,
-				collabsible: true
-			});
-
-			s3.option(L.cbi.NetworkList, 'Interface', {
-				caption:     L.tr('Interface'),
-				description: L.tr('Listen only on the given interface or, if unspecified, on all')
-			});
-
-			s3.option(L.cbi.InputValue, 'Port', {
-				caption:     L.tr('Port'),
-				description: L.tr('Specifies the listening port of this Dropbear instance'),
-				datatype:    'port',
-				placeholder: 22,
-				optional:    true
-			});
-
-			s3.option(L.cbi.CheckboxValue, 'PasswordAuth', {
-				caption:     L.tr('Password authentication'),
-				description: L.tr('Allow SSH password authentication'),
-				initial:     true,
-				enabled:     'on',
-				disabled:    'off'
-			});
-
-			s3.option(L.cbi.CheckboxValue, 'RootPasswordAuth', {
-				caption:     L.tr('Allow root logins with password'),
-				description: L.tr('Allow the root user to login with password'),
-				initial:     true,
-				enabled:     'on',
-				disabled:    'off'
-			});
-
-			s3.option(L.cbi.CheckboxValue, 'GatewayPorts', {
-				caption:     L.tr('Gateway ports'),
-				description: L.tr('Allow remote hosts to connect to local SSH forwarded ports'),
-				initial:     false,
-				enabled:     'on',
-				disabled:    'off'
-			});
-
+			
 			return m.insertInto('#map');
 		});
 	}
